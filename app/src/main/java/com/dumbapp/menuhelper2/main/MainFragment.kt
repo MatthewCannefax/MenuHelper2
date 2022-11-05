@@ -42,6 +42,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initFilterText()
+        var number = 6
     }
 
     private fun initRecyclerView() {
