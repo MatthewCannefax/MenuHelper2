@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dumbapp.menuhelper2.R
+import com.dumbapp.menuhelper2.databinding.FragmentMainBinding
 import com.dumbapp.menuhelper2.model.Recipe
 
 class MainFragment : Fragment() {
@@ -24,9 +25,8 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var filterText: EditText
     private lateinit var adapter: RecipeListAdapter
+    private lateinit var binding: FragmentMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,34 +35,31 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initFilterText()
-        var number = 6
     }
 
     private fun initRecyclerView() {
         adapter = RecipeListAdapter(this::handleItemClick)
         val divider = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
 
-        recyclerView = requireView().findViewById(R.id.recyclerView)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         divider.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.recipe_divider)!!)
-        recyclerView.addItemDecoration(divider)
+        binding.recyclerView.addItemDecoration(divider)
 
         adapter.submitList(viewModel.recipes)
     }
 
     private fun initFilterText() {
-        filterText = requireView().findViewById(R.id.filter_text)
-
-        filterText.addTextChangedListener(object : TextWatcher {
+        binding.filterText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
